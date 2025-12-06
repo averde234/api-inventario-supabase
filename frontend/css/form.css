@@ -1,0 +1,24 @@
+/* Lupa integrada dentro del input */
+.input-icon {
+    position: relative;
+}
+
+.input-lupa {
+    padding-right: 35px;
+}
+
+.btn-lupa {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.btn-lupa:hover {
+    opacity: 0.7;
+}

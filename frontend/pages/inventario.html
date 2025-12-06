@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Control de Inventario</title>
+  <link rel="stylesheet" href="../css/inventario.css">
+</head>
+<body>
+
+<div class="d-flex" id="wrapper">
+
+  <!-- Barra lateral -->
+  <div class="bg-white" id="sidebar-wrapper">
+    <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-botton">
+      <i class="fas fa-solid fa-shop me-2"></i> SUPERMARKET
+    </div>
+    <div class="list-group list-group-flush my-3">
+      <a href="../frontend/dashboard.index.html" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+        <i class="fas fa-project-diagram me-2"></i> Dashboard
+      </a>
+      <a href="./pages/productos.html" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+        <i class="fas fa-solid fa-list-ul me-2"></i> Productos
+      </a>
+      <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+        <i class="fas fa-solid fa-cart-plus me-2"></i> Compras
+      </a>
+      <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+        <i class="fas fa-solid fa-cart-shopping me-2"></i> Ventas
+      </a>
+      <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+        <i class="fas fa-solid fa-boxes-stacked me-2"></i> Inventario
+      </a>
+      <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+        <i class="fas fa-solid fa-user me-2"></i> Usuarios
+      </a>
+      <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+        <i class="fas fa-solid fa-truck-moving me-2"></i> Proveedores
+      </a>
+      <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold">
+        <i class="fas fa-solid fa-right-from-bracket me-2"></i> Cerrar Sesion
+      </a>
+    </div>
+  </div>
+  <!-- Fin barra lateral -->
+
+  <div id="page-content-wrapper">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
+      <div class="d-flex align-items-center">
+        <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+        <h2 class="fs-2 m-0">Dashboard</h2>
+      </div>
+    </nav>
+
+    <div class="container-fluid px-3">
+
+      <!-- Tarjetas resumen -->
+      <div class="row g-3 my-2">
+        <div class="col-md-3">
+          <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+            <div>
+              <h3 class="fs-2">#</h3>
+              <p class="fs-5">Productos</p>
+            </div>
+            <i class="fas fa-solid fa-cart-arrow-down fs-1 primary-text secondary-bg p-3"></i>
+          </div>
+        </div>
+   <div class="col-md-3">
+  <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+    <div>
+      <h3 class="fs-2" id="precio-dolar">N/D</h3>
+      <p class="fs-5">Tasa de Cambio</p>
+    </div>
+    <i class="fas fa-dollar-sign fs-1 primary-text secondary-bg p-3"></i>
+  </div>
+</div>
+        <div class="col-md-3">
+          <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+            <div>
+              <h3 class="fs-2">#</h3>
+              <p class="fs-5">Ventas Totales</p>
+            </div>
+            <i class="fas fa-gift fs-1 primary-text secondary-bg p-3"></i>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+            <div>
+              <h3 class="fs-2">#</h3>
+              <p class="fs-5">Clientes</p>
+            </div>
+            <i class="fas fa-gift fs-1 primary-text secondary-bg p-3"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de inventario -->
+      <section class="forminventario">
+        <div class="row" id="table-head">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Listado de productos</h4>
+              </div>
+              <div class="card-content">
+                <div class="table-responsive">
+                  <table class="table mb-0">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th>ID</th>
+                        <th>Código de Barra</th>
+                        <th>Descripción</th>
+                        <th>Cantidad</th>
+                        <th>Precio Bs</th>
+                        <th>Precio $</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tbody-productos">
+                      <!-- FILAS DINÁMICAS DESDE inventario.js -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal de detalle inventario -->
+<div class="modal fade" id="detalleInventarioModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content shadow-sm border-0">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title fw-bold">Detalle del producto</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body" id="modal-body-inventario">
+        <!-- Aquí se insertan los datos dinámicamente -->
+      </div>
+      <div class="modal-footer bg-light">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+  crossorigin="anonymous"></script>
+
+<script>
+  var el = document.getElementById("wrapper");
+  var toggleButton = document.getElementById("menu-toggle");
+  toggleButton.onclick = function () {
+    el.classList.toggle("toggled");
+  }
+</script>
+
+<script src="../conexionfrontedbackend/inventario.js"></script>
+
+</body>
+</html>
