@@ -60,12 +60,13 @@ async function cargarInventario() {
 
     // 🔹 Renderizar tabla principal con los últimos registros
     Object.values(agrupado).forEach(item => {
-      const fila = document.createElement("tr");
-
       const precioUnidadBs = precioDolarActual ? item.precio_unidad_usd * precioDolarActual : null;
 
+      const fila = document.createElement("tr");
       fila.innerHTML = `
-        <td>${item.id}</td>
+        <!-- ID oculto, se usa solo internamente -->
+        <!--<td>${item.id}</td>-->
+
         <td>${item.productos?.codigo_barra ?? "N/D"}</td>
         <td>
           <a href="#" onclick="mostrarDetalle(${item.id})" class="fw-bold text-dark text-decoration-none">
@@ -76,7 +77,6 @@ async function cargarInventario() {
         <td>${precioUnidadBs ? precioUnidadBs.toLocaleString("es-VE", { minimumFractionDigits: 2 }) + " Bs" : "N/D"}</td>
         <td>${item.precio_unidad_usd?.toLocaleString("es-VE", { minimumFractionDigits: 2 })} $</td>
       `;
-
       tbody.appendChild(fila);
     });
 
@@ -85,22 +85,41 @@ async function cargarInventario() {
   }
 }
 
-// 🔹 Mostrar detalle en modal
+// 🔹 Mostrar detalle en modal con cálculo en Bs
 async function mostrarDetalle(id) {
   try {
     const response = await fetch(`${API_URL}/inventario/${id}`);
     const item = await response.json();
 
+    if (!precioDolarActual) {
+      console.warn("Precio del dólar no disponible. Los valores en Bs no se calcularán.");
+    }
+
+    // 🔹 Calcular precios en Bs
+    const precio_entrada_bs = precioDolarActual ? item.precio_entrada_usd * precioDolarActual : null;
+    const precio_salida_bs = precioDolarActual ? item.precio_salida_usd * precioDolarActual : null;
+    const precio_unidad_bs = precioDolarActual ? item.precio_unidad_usd * precioDolarActual : null;
+    const ganancia_bs = precioDolarActual ? item.ganancia_usd * precioDolarActual : null;
+    const total_bs = precioDolarActual ? item.total_usd * precioDolarActual : null;
+
     modalBody.innerHTML = `
-      <p><strong>ID:</strong> ${item.id}</p>
       <p><strong>Código de barra:</strong> ${item.productos?.codigo_barra ?? "N/D"}</p>
       <p><strong>Descripción:</strong> ${item.productos?.descripcion ?? "N/D"}</p>
+      
+      <hr>
+      <h5>USD</h5>
       <p><strong>Cantidad:</strong> ${item.cantidad}</p>
       <p><strong>Precio entrada:</strong> ${item.precio_entrada_usd} $</p>
       <p><strong>Precio salida:</strong> ${item.precio_salida_usd} $</p>
       <p><strong>Precio por unidad:</strong> ${item.precio_unidad_usd} $</p>
       <p><strong>Ganancia:</strong> ${item.ganancia_usd} $ (${item.porcentaje_ganancia}%)</p>
-      <p><strong>Total:</strong> ${item.total_usd} $</p>
+
+      <hr>
+      <h5>Bs</h5>
+      <p><strong>Precio entrada:</strong> ${precio_entrada_bs?.toLocaleString("es-VE", { minimumFractionDigits: 2 }) ?? "N/D"} Bs</p>
+      <p><strong>Precio salida:</strong> ${precio_salida_bs?.toLocaleString("es-VE", { minimumFractionDigits: 2 }) ?? "N/D"} Bs</p>
+      <p><strong>Precio por unidad:</strong> ${precio_unidad_bs?.toLocaleString("es-VE", { minimumFractionDigits: 2 }) ?? "N/D"} Bs</p>
+      <p><strong>Ganancia:</strong> ${ganancia_bs?.toLocaleString("es-VE", { minimumFractionDigits: 2 }) ?? "N/D"} Bs (${item.porcentaje_ganancia}%)</p>
     `;
 
     modal.show();

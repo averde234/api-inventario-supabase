@@ -77,9 +77,8 @@
 
 .forminventario{
     background-color: white;
-    margin: 16px;
     border-radius: 8px;
-    margin: 10px;
+    width: 1475px;
 }
 
 /* Lupa integrada dentro del input */
